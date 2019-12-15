@@ -1,9 +1,32 @@
 .warning{
     height: 20px;
-    width: 1200px;
+    width: 1400px;
     margin: 0 auto;
     background: #aaa;
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 120px;
+}
+
+.warning img {
+    position: absolute;
+    left: 100px;
+}
+
+.warn-text {
+    color: #f00;
+    text-align: right;
+    width: 1080px;
+    height: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.warn-text span {
+    position: absolute;
+    right: -320px;
+    left: -300px;
 }
 
 .dsd-container {

@@ -9,8 +9,8 @@ class Scroll {
             "./img/b5.png",
         ];
 
-        this.scrollContainerWidth = 1200;
         this.scrollTimer = null;
+        this.index = 1;
     }
 
     initScroll() {
@@ -25,7 +25,8 @@ class Scroll {
             scrollListHTML.appendChild(li);
         });
 
-        scroll.scrollResize(true);
+        scroll.scrollHeader();
+        scroll.scrollResize();
 
         clearInterval(this.scrollTimer);
         this.scrollTimer = setInterval(() => {
@@ -39,45 +40,66 @@ class Scroll {
         document.querySelector('.scroll-next').addEventListener("click", () => {
             this.scrollRun();
         });
+
+        document.querySelectorAll(".num-item").forEach((item) => {
+            const num = item.innerHTML;
+            item.addEventListener("click", () => {
+                scroll.clickNum(num);
+            });
+        });
     }
 
     scrollRun(isPrev) {
         const scroll = this;
-        const scrollContainerWidth = 1200;
+
         const scrollListHTML = document.querySelector(".dsd-scroll ul");
-        let leftDistance = parseInt(scrollListHTML.style.left) - scrollContainerWidth;
+        let leftDistance = parseInt(scrollListHTML.style.left) - 1200;
 
         if (isPrev) {
-            leftDistance = parseInt(scrollListHTML.style.left) + scrollContainerWidth;
+            leftDistance = parseInt(scrollListHTML.style.left) + 1200;
         }
 
-        if ($('.dsd-scroll ul').is(':animated')) {
-            return;
-        }
-
-        $('.dsd-scroll ul').animate({ left: leftDistance }, 1000, () => {
+        animate(scrollListHTML, { left: leftDistance }, () => {
             if (leftDistance == 0) {
-                scrollListHTML.style.left = (- scroll.scrollLength * scrollContainerWidth / 2) + "px";
-            } else if (leftDistance == (1 - scroll.scrollLength) * scrollContainerWidth) {
-                scrollListHTML.style.left = (1 - scroll.scrollLength / 2) * scrollContainerWidth + "px";
+                scrollListHTML.style.left = (- 10 * 1200 / 2) + "px";
+            } else if (leftDistance == (1 - 10) * 1200) {
+                scrollListHTML.style.left = (1 - 10 / 2) * 1200 + "px";
             }
         });
+
     }
 
     scrollResize() {
         const scroll = this;
-        const scrollContainerWidth = 1200;
 
         const scrollListHTML = document.querySelector(".dsd-scroll ul");
 
         scrollListHTML.querySelectorAll(".scroll").forEach((adItemHTML) => {
-            adItemHTML.style.width = scrollContainerWidth + "px";
+            adItemHTML.style.width = 1200 + "px";
             scrollListHTML.appendChild(adItemHTML.cloneNode(true));
         });
 
-        scroll.scrollLength = scrollListHTML.querySelectorAll(".scroll").length;
-        scrollListHTML.style.width = scroll.scrollLength * scrollContainerWidth + "px";
-        scrollListHTML.style.left = -scroll.scrollLength * scrollContainerWidth / 2 + "px";
+        scrollListHTML.style.width = 10 * 1200 + "px";
+        scrollListHTML.style.left = -10 * 1200 / 2 + "px";
+    }
+
+    clickNum(num) {
+        const scroll = this;
+
+        const scrollListHTML = document.querySelector(".dsd-scroll ul");
+        scrollListHTML.style.left = - num * 1200 + "px";
+    }
+
+    scrollHeader() {
+        const scroll = this;
+        let rightDistance = -320;
+        let timer = setInterval(() => {
+            rightDistance += 2;
+            document.querySelector(".warn-text span").style.right = rightDistance + "px";
+            if (rightDistance > 1080) {
+                rightDistance = -320;
+            }
+        }, 100);
     }
 }
 
